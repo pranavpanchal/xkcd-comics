@@ -1,12 +1,17 @@
 .App {
   text-align: center;
+  font-weight: 200;
+  margin: 5% 5%;
 }
 
-.App {
-  text-align: center;
-  font-weight: 200;
-  margin: 4% 25%;
-  text-align: left;
+.wrapper-div {
+  /* text-align: ; */
+}
+
+.nextprev {
+  /* position: fixed;
+  bottom: 50%;
+  vertical-align: middle; */
 }
 
 .container {
