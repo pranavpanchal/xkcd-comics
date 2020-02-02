@@ -114,7 +114,10 @@ export default class App extends Component {
                 </Header>
                 <p>{`Date: ${this.state.currentInfo.month}/${this.state.currentInfo.day}/${this.state.currentInfo.year}`}</p>
                 <Button as="div" labelPosition="right">
-                  <Button color="teal">
+                  <Button
+                    color="teal"
+                    onClick={() => this.changeComic('random')}
+                  >
                     <Icon name="random" />
                     Random
                   </Button>
