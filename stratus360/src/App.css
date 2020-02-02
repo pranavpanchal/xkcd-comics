@@ -8,10 +8,9 @@
   margin: 4% 4%;
 }
 
-.nextprev {
-  /* position: fixed;
+.btn {
+  position: fixed;
   bottom: 50%;
-  vertical-align: middle; */
 }
 
 .container {

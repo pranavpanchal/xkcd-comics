@@ -51,18 +51,8 @@ export default class App extends Component {
   changeComic(action) {
     let currentNum = this.state.currentInfo.num;
     if (action === 'next') {
-      console.log(this.state.numComics, currentNum);
-      if (this.state.numComics === currentNum) {
-        console.log('no forward');
-        return;
-      } else {
-        currentNum += 1;
-      }
+      currentNum += 1;
     } else if (action === 'prev') {
-      if (this.state.numComics === 1) {
-        console.log('no backward');
-        return;
-      }
       currentNum -= 1;
     } else if (action === 'random') {
       currentNum = Math.ceil(Math.random() * this.state.numComics);
@@ -75,6 +65,15 @@ export default class App extends Component {
     this.fetchComic(`http://xkcd.com/${currentNum}/info.0.json`).then(data => {
       this.setState({ currentInfo: data });
     });
+  }
+
+  handleSearch() {
+    if (this.state.value > this.state.numComics) {
+      alert('nope');
+    } else {
+      this.changeComic(this.state.value);
+      this.setState({ value: '' });
+    }
   }
 
   render() {
@@ -99,12 +98,14 @@ export default class App extends Component {
         <Grid columns="equal">
           <Grid.Column style={{ textAlign: 'center' }}>
             <Button
+              style={{ left: '0%' }}
+              size="massive"
               disabled={this.state.currentInfo.num === 1}
-              className="nextprev"
+              className="btn"
               icon
               onClick={() => this.changeComic('prev')}
             >
-              <Icon name="world" />
+              <Icon name="arrow alternate circle left" />
             </Button>
           </Grid.Column>
           <Grid.Column width={12}>
@@ -134,10 +135,7 @@ export default class App extends Component {
                   style={{ marginRight: '2%' }}
                   action={
                     <Button
-                      onClick={() => {
-                        this.changeComic(this.state.value);
-                        this.setState({ value: '' });
-                      }}
+                      onClick={() => this.handleSearch()}
                       color="teal"
                       icon="search"
                       content="Go to"
@@ -162,12 +160,14 @@ export default class App extends Component {
           </Grid.Column>
           <Grid.Column style={{ textAlign: 'center' }}>
             <Button
+              style={{ right: '0%', margin: '0%' }}
+              size="massive"
               disabled={this.state.currentInfo.num === this.state.numComics}
-              className="nextprev"
+              className="btn"
               icon
               onClick={() => this.changeComic('next')}
             >
-              <Icon name="world" />
+              <Icon name="arrow alternate circle right" />
             </Button>
           </Grid.Column>
         </Grid>
