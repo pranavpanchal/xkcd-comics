@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { Grid, Segment, Image, Button, Icon, Header } from 'semantic-ui-react';
+import {
+  Grid,
+  Segment,
+  Image,
+  Button,
+  Icon,
+  Header,
+  Input,
+  Label,
+  Accordion,
+} from 'semantic-ui-react';
 const axios = require('axios');
 
 export default class App extends Component {
   state = {
     currentInfo: {},
     numComics: 0,
+    description: '',
   };
 
   componentDidMount() {
-    this.fetchComic('http://xkcd.com/info.0.json').then(data => {
+    this.fetchComic('http://xkcd.com/614/info.0.json').then(data => {
       this.setState({ currentInfo: data, numComics: data.num });
+      // let str = data.transcript;
+      // this.setState({ description: str.replace(/\s/g, '\n') });
+      // console.log(this.state.description);
     });
+    console.log(this.state.description);
   }
 
   fetchComic(url) {
@@ -21,7 +36,7 @@ export default class App extends Component {
       .get(url)
       .then(function(response) {
         // handle success
-        // console.log(response.data);
+        console.log(response.data);
         return response.data;
       })
       .catch(function(error) {
@@ -51,6 +66,8 @@ export default class App extends Component {
       currentNum -= 1;
     } else if (action === 'random') {
       currentNum = Math.ceil(Math.random() * this.state.numComics);
+    } else {
+      currentNum = action;
     }
 
     console.log(currentNum);
@@ -61,11 +78,24 @@ export default class App extends Component {
   }
 
   render() {
+    let panels = [
+      {
+        key: 'acquire-dog',
+        title: {
+          content: (
+            <Label color="blue" style={{ width: '90%' }}>
+              Transcript
+            </Label>
+          ),
+        },
+        content: {
+          content: <span>{this.state.currentInfo.transcript}</span>,
+        },
+      },
+    ];
+
     return (
       <div className="App">
-        <Header style={{ textAlign: 'center' }} as="h1">
-          First Header
-        </Header>
         <Grid columns="equal">
           <Grid.Column style={{ textAlign: 'center' }}>
             <Button
@@ -77,6 +107,35 @@ export default class App extends Component {
             </Button>
           </Grid.Column>
           <Grid.Column width={12}>
+            <Segment>
+              <div className="wrapperDiv">
+                <Header style={{ textAlign: 'center' }} as="h1">
+                  {this.state.currentInfo.title}
+                </Header>
+                <p>{`Date: ${this.state.currentInfo.month}/${this.state.currentInfo.day}/${this.state.currentInfo.year}`}</p>
+                <Button as="div" labelPosition="right">
+                  <Button color="teal">
+                    <Icon name="random" />
+                    Random
+                  </Button>
+                  <Label as="a" basic pointing="left">
+                    {`ID: ${this.state.currentInfo.num}`}
+                  </Label>
+                </Button>
+                <Input
+                  style={{ marginRight: '2%' }}
+                  action={{
+                    color: 'teal',
+                    content: 'Go to',
+                  }}
+                  placeholder="Search..."
+                  defaultValue=""
+                />
+                <div className="wrapperDiv">
+                  <Accordion defaultActiveIndex={1} panels={panels} />
+                </div>
+              </div>
+            </Segment>
             <Segment>
               <Image
                 src={

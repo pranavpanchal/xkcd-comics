@@ -4,8 +4,8 @@
   margin: 5% 5%;
 }
 
-.wrapper-div {
-  /* text-align: ; */
+.wrapperDiv {
+  margin: 4% 4%;
 }
 
 .nextprev {
@@ -20,65 +20,11 @@
   font-size: 16px;
 }
 
-.title {
-  font-weight: 600;
-  font-size: 28px;
-}
-
-.subContainer {
-  margin: 5% 0%;
-}
-
-.iconRow {
-  margin: 5% 0%;
-  cursor: pointer;
-}
-
-.icon {
-  color: #b3b3b3;
-  transition: color 700ms;
-}
-
-.icon:hover {
-  color: #053eff;
-}
-
-.subtitle {
-  font-size: 13px;
-  color: gray;
-}
-
-.description {
-  margin: 7px 0px;
-}
-
-.link {
-  font-weight: 600;
-  text-decoration: none;
-  color: #053eff;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0);
-  transition: border-bottom 300ms;
-}
-
-.link:hover {
-  border-bottom: 2px solid rgba(5, 62, 255, 1);
-}
-
 .content {
   font-weight: 200;
   font-size: 16px;
   margin: 2% 0% 0%;
 }
-
-/* @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
 
 @media screen and (max-width: 768px) {
   .container {
