@@ -30,7 +30,7 @@ export default class App extends Component {
     url = url.split('/');
     console.log(url[url.length - 1]);
 
-    this.fetchComic(`http://xkcd.com/${url[url.length - 1]}/info.0.json`).then(
+    this.fetchComic(`https://xkcd.com/${url[url.length - 1]}/info.0.json`).then(
       data => {
         this.setState({ currentInfo: data, numComics: data.num });
         window.history.pushState('', '', `/${this.state.currentInfo.num}`);
@@ -79,7 +79,7 @@ export default class App extends Component {
 
     console.log(currentNum);
 
-    this.fetchComic(`http://xkcd.com/${currentNum}/info.0.json`).then(data => {
+    this.fetchComic(`https://xkcd.com/${currentNum}/info.0.json`).then(data => {
       this.setState({ currentInfo: data });
       window.history.pushState('', '', `/${this.state.currentInfo.num}`);
     });
