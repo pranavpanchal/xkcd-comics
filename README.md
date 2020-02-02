@@ -1,1 +1,1 @@
-# XKCD Comics
+# xkcd Comics
