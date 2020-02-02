@@ -19,10 +19,11 @@ export default class App extends Component {
     currentInfo: {},
     numComics: 0,
     description: '',
+    searchInput: '',
   };
 
   componentDidMount() {
-    this.fetchComic('http://xkcd.com/614/info.0.json').then(data => {
+    this.fetchComic('http://xkcd.com/info.0.json').then(data => {
       this.setState({ currentInfo: data, numComics: data.num });
       // let str = data.transcript;
       // this.setState({ description: str.replace(/\s/g, '\n') });
@@ -36,7 +37,6 @@ export default class App extends Component {
       .get(url)
       .then(function(response) {
         // handle success
-        console.log(response.data);
         return response.data;
       })
       .catch(function(error) {
@@ -67,7 +67,7 @@ export default class App extends Component {
     } else if (action === 'random') {
       currentNum = Math.ceil(Math.random() * this.state.numComics);
     } else {
-      currentNum = action;
+      currentNum = parseInt(action);
     }
 
     console.log(currentNum);
@@ -99,6 +99,7 @@ export default class App extends Component {
         <Grid columns="equal">
           <Grid.Column style={{ textAlign: 'center' }}>
             <Button
+              disabled={this.state.currentInfo.num === 1}
               className="nextprev"
               icon
               onClick={() => this.changeComic('prev')}
@@ -126,13 +127,23 @@ export default class App extends Component {
                   </Label>
                 </Button>
                 <Input
-                  style={{ marginRight: '2%' }}
-                  action={{
-                    color: 'teal',
-                    content: 'Go to',
+                  value={this.state.value}
+                  onChange={event => {
+                    this.setState({ value: event.target.value });
                   }}
+                  style={{ marginRight: '2%' }}
+                  action={
+                    <Button
+                      onClick={() => {
+                        this.changeComic(this.state.value);
+                        this.setState({ value: '' });
+                      }}
+                      color="teal"
+                      icon="search"
+                      content="Go to"
+                    />
+                  }
                   placeholder="Search..."
-                  defaultValue=""
                 />
                 <div className="wrapperDiv">
                   <Accordion defaultActiveIndex={1} panels={panels} />
@@ -151,6 +162,7 @@ export default class App extends Component {
           </Grid.Column>
           <Grid.Column style={{ textAlign: 'center' }}>
             <Button
+              disabled={this.state.currentInfo.num === this.state.numComics}
               className="nextprev"
               icon
               onClick={() => this.changeComic('next')}
