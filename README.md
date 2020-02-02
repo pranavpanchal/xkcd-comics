@@ -1,1 +1,1 @@
-# company-challenges
+# XKCD Comics
