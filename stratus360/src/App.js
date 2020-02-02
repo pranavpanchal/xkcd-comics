@@ -20,16 +20,23 @@ export default class App extends Component {
     numComics: 0,
     description: '',
     searchInput: '',
+    currentId: '',
   };
 
   componentDidMount() {
-    this.fetchComic('http://xkcd.com/info.0.json').then(data => {
-      this.setState({ currentInfo: data, numComics: data.num });
-      // let str = data.transcript;
-      // this.setState({ description: str.replace(/\s/g, '\n') });
-      // console.log(this.state.description);
-    });
-    console.log(this.state.description);
+    let url = window.location.href;
+    url = url.split('/');
+    console.log(url[url.length - 1]);
+
+    this.fetchComic(`http://xkcd.com/${url[url.length - 1]}/info.0.json`).then(
+      data => {
+        this.setState({ currentInfo: data, numComics: data.num });
+        window.history.pushState('', '', `/${this.state.currentInfo.num}`);
+        // let str = data.transcript;
+        // this.setState({ description: str.replace(/\s/g, '\n') });
+        // console.log(this.state.description);
+      },
+    );
   }
 
   fetchComic(url) {
@@ -49,6 +56,7 @@ export default class App extends Component {
   }
 
   changeComic(action) {
+    console.log(this.state);
     let currentNum = this.state.currentInfo.num;
     if (action === 'next') {
       currentNum += 1;
@@ -64,6 +72,7 @@ export default class App extends Component {
 
     this.fetchComic(`http://xkcd.com/${currentNum}/info.0.json`).then(data => {
       this.setState({ currentInfo: data });
+      window.history.pushState('', '', `/${this.state.currentInfo.num}`);
     });
   }
 
