@@ -16,14 +16,16 @@ const axios = require('axios');
 
 export default class App extends Component {
   state = {
+    mobile: null,
     currentInfo: {},
     numComics: 0,
-    description: '',
     searchInput: '',
-    currentId: '',
   };
 
   componentDidMount() {
+    window.addEventListener('resize', this.resize.bind(this));
+    this.resize();
+
     let url = window.location.href;
     url = url.split('/');
     console.log(url[url.length - 1]);
@@ -53,6 +55,13 @@ export default class App extends Component {
       .finally(function() {
         // always executed
       });
+  }
+
+  resize() {
+    if (window.innerWidth <= 768) this.setState({ mobile: true });
+    else {
+      this.setState({ mobile: false });
+    }
   }
 
   changeComic(action) {
@@ -136,22 +145,24 @@ export default class App extends Component {
                     {`ID: ${this.state.currentInfo.num}`}
                   </Label>
                 </Button>
-                <Input
-                  value={this.state.value}
-                  onChange={event => {
-                    this.setState({ value: event.target.value });
-                  }}
-                  style={{ marginRight: '2%' }}
-                  action={
-                    <Button
-                      onClick={() => this.handleSearch()}
-                      color="teal"
-                      icon="search"
-                      content="Go to"
-                    />
-                  }
-                  placeholder="Search..."
-                />
+                {!this.state.mobile && (
+                  <Input
+                    value={this.state.value}
+                    onChange={event => {
+                      this.setState({ value: event.target.value });
+                    }}
+                    style={{ marginRight: '2%' }}
+                    action={
+                      <Button
+                        onClick={() => this.handleSearch()}
+                        color="teal"
+                        icon="search"
+                        content="Go to"
+                      />
+                    }
+                    placeholder="Search..."
+                  />
+                )}
                 <div className="wrapperDiv">
                   <Accordion defaultActiveIndex={1} panels={panels} />
                 </div>
